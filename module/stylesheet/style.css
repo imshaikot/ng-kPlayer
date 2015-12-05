@@ -133,7 +133,7 @@ video::-webkit-media-controls {
   z-index: 2147483647;
   top: 0px;
   left: 0px;
-  background-image: url("noise.gif");
+  background-image: url("../images/noise.gif");
   background-position: top left;
   background-repeat: repeat;
   width: 640px;

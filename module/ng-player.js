@@ -438,7 +438,7 @@ directive_app.directive('ngPlayer', function() {
   return {
     restrict: 'AE',
     replace: 'true',
-    templateUrl: 'module/player.html',
+    templateUrl: 'module/template/player.html',
     controller: controller,
     link: function(scope, elem, attrs) {
 
