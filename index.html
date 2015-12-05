@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html lang="en" ng-app="myApp">
+	<head>
+		<meta charset="utf-8">
+		<title>Kaliver Player</title>
+	</head>
+	<body>
+
+
+		<div style="margin: 20px;">
+			<ng-player
+				v-title="Tujhse Naraz Nahi Zindagi | Sanam"
+				v-autoplay="false"
+				v-preload="true"
+				v-url="http://52.11.132.219/cache/mp4:/61055e7197b7c7a40ce2986becbf6b9d.mp">
+			</ng-player>
+		</div>
+
+
+		<script src="bower_components/angular/angular.js"></script>
+		<script src="module/ng-player.js"></script>
+		<script src="app.js"></script>
+		<script src="module/date.js"></script>
+
+	</body>
+
+
+</html>

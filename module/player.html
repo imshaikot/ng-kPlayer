@@ -1,0 +1,78 @@
+
+<div ng-init="playerInit()">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="module/style.css">
+  <link rel="stylesheet" href="module/animate.css">
+
+  <div class="main-player-component">
+    <video class="main-player" src="{{urlWhiteList(kaliver_vSrc)}}"></video>
+
+    <section class="touchable-component" ng-click="kClickPlay()">
+      <span id="big-pause-btn" style="color: rgba(255, 255, 255, 0.7); font-size: 75px; display: none;margin-top: 115px;"
+            class="fa fa-pause"></span>
+      <span id="big-play-btn" style="color: rgba(255, 255, 255, 0.7);font-size: 75px; display: none;margin-top: 115px;"
+            class="fa fa-play-circle-o"></span>
+    </section>
+
+    <section class="error-component" ng-show="error_playing_video">
+
+    </section>
+
+
+    <section class="player-titleBar">
+      <span class="main-title">{{kaliver_videoTitle}}</span>
+    </section>
+
+
+    <section class="player-control">
+
+      <div class="progress-bar-x" ng-init="seekBarInit()" style="width: 614px">
+        <div class="progress-x" style="width: 614px">
+          <div class="bufferBar"></div>
+          <div class="timeBar"></div>
+        </div>
+      </div>
+
+
+      <div class="control-down">
+
+        <span style="width: 20px;" data-ng-click="kPause()" id="pause" class="fa fa-pause fa-btn hide"></span>
+        <span style="width: 20px;" data-ng-click="kPlay()" id="play" class="fa fa-play fa-btn"></span>
+
+
+        <span class="fa fa-fast-forward fa-btn"></span>
+
+        <span class="duration">{{kaliver_vTimelapse}}/{{kaliver_vDuration}}</span>
+
+        <!--<div style="class="progress-bar-x">
+          <div id="progress" class="progress-x" style="width: 300px;">
+            <span id="bufferBar" class="bufferBar"></span>
+            <span id="timeBar" class="timeBar"></span>
+          </div>
+        </div>-->
+
+
+        <div class="right">
+
+          <div class="volumeBar">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+
+          <span ng-show="!muted"
+                class="fa fa-volume-up fa-btn bounceIn animated" data-ng-click="mute()"></span>
+      <span ng-show="muted"
+            class="fa fa-volume-off fa-btn bounceIn animated" data-ng-click="mute()"></span>
+        <span style="text-align: right;"
+              class="fa fa-television fa-btn bounceIn animated" data-ng-click="toggleFullScreen()"></span>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+</div>

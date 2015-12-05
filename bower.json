@@ -1,0 +1,11 @@
+{
+  "name": "KaliverPlayer",
+  "description": "A light weight HTML5 Video Player",
+  "version": "0.1.7",
+  "homepage": "https://github.com/abuhena/kPlayer",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.4.0"
+  }
+}
