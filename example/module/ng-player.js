@@ -1,9 +1,8 @@
 /**
  * Created by abuhena on 11/26/15.
  */
-var directive_app = angular.module('KaliverPlayer', []);
-
-directive_app.directive('ngPlayer', function() {
+angular.module('KaliverPlayer', [])
+    .directive('ngPlayer', function() {
 
   var controller = ['$scope','$sce', '$timeout', function ($scope, $sce, $timeout) {
 
@@ -62,6 +61,10 @@ directive_app.directive('ngPlayer', function() {
         $scope.error_playing_video = false;
         document.querySelector("#big-play-btn").style.display = "none";
         document.querySelector("#big-pause-btn").style.display = "block";
+
+        $timeout(function(){
+          document.querySelector("#big-pause-btn").style.display = "none";
+        }, 500);
 
         document.querySelector("#big-pause-btn").className = "fa fa-pause zoomOut animated";
 
@@ -133,7 +136,7 @@ directive_app.directive('ngPlayer', function() {
 
     document.addEventListener("webkitfullscreenchange", function(){
 
-
+      $scope.startBuffer()
 
       if (document.webkitFullscreenElement != null)
       {
@@ -153,7 +156,7 @@ directive_app.directive('ngPlayer', function() {
         //
         document.querySelector(".progress-bar-x").style.width = ((window.innerWidth - (getSide * 2)) - 20)+"px";
         $scope.fsSeekBarSize = ((window.innerWidth - (getSide * 2)) - 20);
-        console.log($scope.fsSeekBarSize);
+        //console.log($scope.fsSeekBarSize);
         document.querySelector(".progress-x").style.width = $scope.fsSeekBarSize+"px";
         document.querySelector(".timeBar").style.top = "3px";
 
@@ -204,7 +207,9 @@ directive_app.directive('ngPlayer', function() {
 
 
     document.addEventListener("mozfullscreenchange", function(){
-      console.log(document.mozFullScreenElement);
+
+      $scope.startBuffer();
+
       if (document.mozFullScreenElement != null)
       {
         var getSide = 10;//(screen.width - 640) / 2;
@@ -228,6 +233,7 @@ directive_app.directive('ngPlayer', function() {
         document.querySelector(".error-component").style.height = window.innerHeight+"px";
         document.querySelector(".error-component").style.top = "50px";
 
+        //document.querySelector(".touchable-component").style.position = "relative";
         document.querySelector(".touchable-component").style.width = (window.innerWidth )+"px";
         document.querySelector(".touchable-component").style.height = (window.innerHeight - (navigator.platform == "Win32" ? 60 : -40))+"px";
         document.querySelector("#big-pause-btn").style.marginTop = ((window.innerHeight - 75)/2) +"px";
@@ -303,6 +309,10 @@ directive_app.directive('ngPlayer', function() {
         pauseBtn.style.display = "none";
         playBtn.className = "fa fa-play-circle-o zoomIn animated";
 
+        $timeout(function(){
+          playBtn.style.display = "none";
+        }, 400);
+
         $scope.domPlayer.pause();
       }
     }
@@ -355,6 +365,12 @@ directive_app.directive('ngPlayer', function() {
       $scope.seekBar = document.querySelector(".progress-bar-x");
       console.log($scope.seekBar);
       $scope.dragging = false;
+
+      $scope.seekBar.onmouseover = function(e)
+      {
+        $scope.activeTime(true, e);
+      }
+
       $scope.seekBar.onmousedown = function(e)
       {
         $scope.dragging = true;
@@ -372,6 +388,7 @@ directive_app.directive('ngPlayer', function() {
 
       $scope.seekBar.onmousemove = function(e)
       {
+        $scope.activeTime(true, e);
         if ($scope.dragging)
         {
           $scope.updateBar(e.pageX)
@@ -381,6 +398,7 @@ directive_app.directive('ngPlayer', function() {
       $scope.context.onmouseout = function()
       {
         $scope.dragging = false;
+        $scope.activeTime(false);
       }
 
       $timeout($scope.startBuffer, 1000);
@@ -433,6 +451,61 @@ directive_app.directive('ngPlayer', function() {
       document.querySelector('.timeBar').style.width = pixel+"px";
     }
 
+    $scope.copyURL = function()
+    {
+      document.querySelector(".context-menu").style.display = 'none';
+      document.querySelector("#copytoc").focus();
+      document.querySelector("#copytoc").select();
+      try {
+        document.execCommand('copy');
+      } catch (err) {
+        console.log('Oops, unable to copy');
+      }
+    }
+
+    $scope.activeTime = function(bool, event)
+    {
+      var elem = document.querySelector(".time-title");
+      if (bool)
+      {
+        var max_px = $scope.fsActivate ? $scope.fsSeekBarSize : 614;
+        var perc_px = (100 / (max_px)) * (event.layerX - 10);
+        var timeTo = (perc_px * $scope.domPlayer.duration) / 100;
+
+        if (perc_px >= 0.005)
+        {
+          $scope.timeToFF = (new Date).clearTime()
+              .addSeconds(timeTo)
+              .toString('mm:ss');
+
+          elem.style.display = "block";
+          elem.style.left = ((event.layerX - 10) - (parseInt(elem.offsetWidth)/2))+"px";
+          elem.className = "time-title fadeInUp animated";
+        }
+
+      }else {
+        elem.className = "time-title fadeOutDown animated";
+
+      }
+    }
+
+    $scope.about = function(show)
+    {
+        var elem = document.querySelector(".about");
+      elem.className = "about bounceIn animated";
+      if (show ) {elem.style.display = "block";}
+      elem.style.left = ((document.querySelector(".touchable-component").offsetWidth - elem.offsetWidth)/2)+"px";
+      elem.style.top = ((document.querySelector(".touchable-component").offsetHeight + 30 - elem.offsetHeight)/2)+"px";
+
+      console.log(document.querySelector(".touchable-component").offsetHeight);
+    }
+
+    $scope.debout = function()
+    {
+      var elem = document.querySelector(".about");
+      elem.className = "about bounceOut animated";
+    }
+
   }];
 
   return {
@@ -442,12 +515,20 @@ directive_app.directive('ngPlayer', function() {
     controller: controller,
     link: function(scope, elem, attrs) {
 
+        var cmp = document.querySelector(".main-player-component");
+
         scope.kaliver_videoTitle = attrs.vTitle,
         scope.kaliver_vSrc,
         scope.kaliver_vAutoplay,
         scope.kaliver_vPreload,
         scope.kaliver_vDuration = "00:00",
         scope.kaliver_vTimelapse = "00:00";
+
+      scope.contextMenu = false;
+
+      //document.addEventListener( "contextmenu", function(e) {
+      //  console.log(e);
+      //});
 
       if (typeof(attrs.vUrl)!=="undefined")
       {
@@ -463,6 +544,44 @@ directive_app.directive('ngPlayer', function() {
       {
         scope.kaliver_vPreload = attrs.vPreload || attrs.vPreload=='true' ? true : false;
       }
+
+      (function() {
+
+        cmp.addEventListener( "contextmenu", function(e) {
+
+          createContextMenu(e, function(element){
+            e.preventDefault();
+            //scope.contextMenu = true;
+            element.style.display = "block";
+          });
+        });
+
+
+        cmp.addEventListener("click", function(){
+          if (document.querySelector(".context-menu").style.display=='block')
+          {
+            //scope.contextMenu = false;
+            document.querySelector(".context-menu").style.display = 'none';
+          }
+        });
+
+      })();
+
+      function createContextMenu(e, being)
+      {
+        //console.log(e);
+        var cmElement = document.querySelector(".context-menu");
+        cmElement.style.top = e.layerY+"px";
+        cmElement.style.left = e.layerX+"px";
+
+        return being(cmElement);
+      }
+
+      //scope.kText = "kPlayer offers you the best light-weight quality of HTML5 Player with";
+      //scope.kText += " high stability of Video Playback.<br/>";
+      //scope.kText += "kPlayer is most efficient HTML5 video player for AngularJS and usecase is simple as";
+      //scope.kText += " typical directive.<br/><br/>";
+      //scope.kText += "Kaliver Player solo developed by <span style='font-weight: bold;'>Shariar Shaikot</span>"
 
     }
   };

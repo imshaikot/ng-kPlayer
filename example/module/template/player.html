@@ -24,6 +24,9 @@
     </section>
 
 
+    <section class="time-title">
+      {{timeToFF}}
+    </section>
     <section class="player-control">
 
       <div class="progress-bar-x" ng-init="seekBarInit()" style="width: 614px">
@@ -73,6 +76,31 @@
       </div>
     </section>
 
-  </div>
 
+    <section class="context-menu" style="display: none;">
+
+      <div class="cm-list" ng-click="copyURL()">Copy Video URL</div>
+      <div class="cm-list">Copy embed code</div>
+      <div style="border-bottom: none;" ng-click="about(true)" class="cm-list">About Kaliver Player</div>
+    </section>
+
+    <section class="about" style="display: none;">
+      <i ng-click="debout()" class="fa fa-times" style="color: #D0CFCF; font-size: 18px; margin: 5px; cursor: pointer;"></i>
+      <p style="font-weight: bold; text-align: center;"> Kaliver Player v 0.0.1</p>
+
+      <p style="font-size: 12px; margin-left: 30px; color: #D5D3D3;">
+        Kaliver Player offers you the best light-weight quality of HTML5 Player with
+        high stability of Video Playback. Supported by latest Chrome and FireFox browser as well
+        as it supports HLS and H.264 streaming<br/><br/>
+        kPlayer is most efficient HTML5 video player for AngularJS and usecase is simple as
+        typical directive.<br/><br/>
+        Kaliver Player developed and maintained by <span style='font-weight: bold;'>Shariar Shaikot</span>
+        and always trying to add new features with its stability.
+        <span><a style="color: #E1DFDF;" href="https://github.com/abuhena/kPlayer" target="_blank"> Click here</a>
+          to contribute </span>
+      </p>
+    </section>
+
+  </div>
+  <textarea style="width: 0px; height: 0px; outline: none; opacity: 0;" id="copytoc">{{kaliver_vSrc}}</textarea>
 </div>
