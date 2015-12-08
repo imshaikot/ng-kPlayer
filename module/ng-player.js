@@ -218,9 +218,9 @@ angular.module('KaliverPlayer', [])
         document.querySelector(".player-control").style.marginLeft = "-"+getSide+"px";
         document.querySelector(".player-control").style.marginRight = getSide+"px";
         document.querySelector(".player-control").style.marginTop = (window.innerHeight - 160)+"px";
-        document.querySelector(".player-control").style.position = "relative";
+        //document.querySelector(".player-control").style.position = "relative";
         document.querySelector(".player-control").style.top = "0px";
-        document.querySelector(".player-control").style.left = "-20px";
+        document.querySelector(".player-control").style.left = "-10px";
 
         //
         document.querySelector(".progress-bar-x").style.width = ((window.innerWidth - (getSide * 2)) - 20)+"px";
@@ -262,10 +262,10 @@ angular.module('KaliverPlayer', [])
 
         document.querySelector(".touchable-component").style.width = "640px";
         document.querySelector(".touchable-component").style.height = "275px";
-        document.querySelector("#big-pause-btn").style.marginTop = ((window.innerHeight - 75)/2) +"px";
-        document.querySelector("#big-pause-btn").style.fontSize = "150px";
-        document.querySelector("#big-play-btn").style.marginTop = ((window.innerHeight - 75)/2) +"px";
-        document.querySelector("#big-play-btn").style.fontSize = "150px";
+        document.querySelector("#big-pause-btn").style.marginTop = "115px";
+        document.querySelector("#big-pause-btn").style.fontSize = "75px";
+        document.querySelector("#big-play-btn").style.marginTop = "115px";
+        document.querySelector("#big-play-btn").style.fontSize = "75px";
 
         $scope.fsActivate = !$scope.fsActivate;
         $scope.onSSUpdate();
