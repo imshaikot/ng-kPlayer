@@ -19,10 +19,10 @@ Make a service dependence to your ng config as "KaliverPlayer" --- That's you're
 # Simple Usage
 ```html
 <ng-player
-v-title="Horizon Hobby At The F3Expo"
-v-autoplay="false"
-v-preload="true"
-v-url="http://52.11.132.219/cache/mp4:/61055e7197b7c7a40ce2986becbf6b9d.mp4">
+  v-title="Horizon Hobby At The F3Expo"
+  v-autoplay="false"
+  v-preload="true"
+  v-url="http://52.11.132.219/cache/mp4:/61055e7197b7c7a40ce2986becbf6b9d.mp4">
 </ng-player>
 ```
 Isn't it?
